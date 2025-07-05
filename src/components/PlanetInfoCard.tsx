@@ -47,8 +47,8 @@ const PlanetInfoCard: React.FC<PlanetInfoCardProps> = ({ planetData, onClose, is
           className="mb-8"
         >
           <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cosmic-blue-neon to-cosmic-purple-light mb-2">
-            {planetData.name}
-          </h2>
+          {planetData.name}
+        </h2>
           <div className="w-20 h-1 bg-gradient-to-r from-cosmic-blue-neon to-cosmic-purple-light rounded-full"></div>
         </motion.div>
         

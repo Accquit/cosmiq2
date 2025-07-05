@@ -80,12 +80,12 @@ const PlanetMusicEmbed: React.FC<PlanetMusicEmbedProps> = ({ planetId, planetNam
             animate={{ scale: 1, rotate: 0 }}
             transition={{ delay: 0.3, type: "spring", bounce: 0.4 }}
             className="text-6xl mb-4"
-          >
+    >
             🎧
           </motion.div>
           <h3 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cosmic-blue-neon to-cosmic-purple-light mb-2">
             The Sound of {planetName}
-          </h3>
+      </h3>
           <p className="text-cosmic-blue-light text-lg">
             Immerse yourself in cosmic vibrations
           </p>
@@ -115,13 +115,13 @@ const PlanetMusicEmbed: React.FC<PlanetMusicEmbedProps> = ({ planetId, planetNam
               </ol>
             </div>
           </div>
-          <iframe
+        <iframe
             src={`https://open.spotify.com/embed/playlist/${playlistId}?utm_source=generator&theme=0`}
-            width="100%"
-            height="80"
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
+          width="100%"
+          height="80"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
             className="rounded-lg"
             title="Spotify Playlist"
           />

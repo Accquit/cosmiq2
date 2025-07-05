@@ -118,7 +118,7 @@ const PlanetVibeCard: React.FC<PlanetVibeCardProps> = ({ planetId }) => {
               >
                 ✋ Stop Speaking
               </button>
-            </div>
+        </div>
           </motion.div>
         </div>
       </div>

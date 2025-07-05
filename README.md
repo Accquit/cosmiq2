@@ -75,7 +75,6 @@
 ## ✨ Screenshots
 
 > _Add screenshots or a demo GIF here for hackathon judging!_
-<<<<<<< HEAD
 
 ---
 
@@ -97,6 +96,3 @@
 
 ## 📄 License
 MIT 
-=======
----
->>>>>>> 16349c5eadb236289c1179a65d642165c7e6facf
