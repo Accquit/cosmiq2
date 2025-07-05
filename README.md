@@ -74,7 +74,14 @@
 
 ## ✨ Screenshots
 
-> _Add screenshots or a demo GIF here for hackathon judging!_
+> ![image](https://github.com/user-attachments/assets/4843eb77-da71-484a-8a4a-247aa717bfdc)
+> ![image](https://github.com/user-attachments/assets/5997bfda-6710-43a3-867c-0650ea9bc160)
+> ![image](https://github.com/user-attachments/assets/47985da0-066c-4600-99dc-ac4d189c6e80)
+> ![image](https://github.com/user-attachments/assets/e200a494-962a-4780-ba54-bb2a1c7f45a7)
+
+
+
+
 
 ---
 
