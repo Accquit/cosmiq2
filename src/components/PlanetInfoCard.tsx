@@ -5,20 +5,26 @@ import { motion } from 'framer-motion';
 interface PlanetInfoCardProps {
   planetData: PlanetData;
   onClose?: () => void;
+  isOverlay?: boolean;
 }
 
-const PlanetInfoCard: React.FC<PlanetInfoCardProps> = ({ planetData, onClose }) => {
+const PlanetInfoCard: React.FC<PlanetInfoCardProps> = ({ planetData, onClose, isOverlay }) => {
   if (!planetData) return null;
+
+  // Use fixed for overlay (mobile), static for desktop
+  const baseClass = isOverlay
+    ? "fixed right-0 top-0 h-full w-full max-w-md bg-gradient-to-b from-cosmic-black via-cosmic-purple/10 to-cosmic-black p-8 z-50 overflow-y-auto border-l border-cosmic-blue-neon/30 backdrop-blur-md shadow-2xl"
+    : "h-full w-96 bg-gradient-to-b from-cosmic-black via-cosmic-purple/10 to-cosmic-black p-8 z-20 overflow-y-auto border-l border-cosmic-blue-neon/30 backdrop-blur-md shadow-2xl flex-shrink-0";
 
   return (
     <motion.div
-      className="fixed right-0 top-0 h-full w-96 bg-gradient-to-b from-cosmic-black via-cosmic-purple/10 to-cosmic-black p-8 z-20 overflow-y-auto border-l border-cosmic-blue-neon/30 backdrop-blur-md shadow-2xl"
-      initial={{ x: '100%' }}
+      className={baseClass}
+      initial={isOverlay ? { x: '100%' } : { x: 100 }}
       animate={{ x: 0 }}
-      exit={{ x: '100%' }}
+      exit={isOverlay ? { x: '100%' } : { x: 100 }}
       transition={{ type: 'spring', damping: 20, stiffness: 100 }}
     >
-      {/* Close button */}
+      {/* Close button for overlay */}
       {onClose && (
         <motion.button
           initial={{ opacity: 0, scale: 0 }}

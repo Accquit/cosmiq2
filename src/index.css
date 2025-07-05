@@ -1,4 +1,3 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -105,6 +104,8 @@ All colors MUST be HSL.
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background: var(--cosmic-bg, #0a0a0a);
+    transition: background 0.7s cubic-bezier(0.4,0,0.2,1);
   }
 }
 
@@ -144,4 +145,42 @@ All colors MUST be HSL.
 /* Text shadow utilities */
 .text-shadow-glow {
   text-shadow: 0 0 5px #3b82f6, 0 0 10px #3b82f6, 0 0 15px #3b82f6;
+}
+
+/* Cosmic theme classes */
+.theme-nebula {
+  --cosmic-bg: linear-gradient(135deg, #6d28d9 0%, #2563eb 100%);
+  --cosmic-accent: #f472b6;
+  --cosmic-accent2: #60a5fa;
+}
+.theme-aurora {
+  --cosmic-bg: linear-gradient(135deg, #059669 0%, #38bdf8 100%);
+  --cosmic-accent: #a3e635;
+  --cosmic-accent2: #06b6d4;
+}
+.theme-supernova {
+  --cosmic-bg: linear-gradient(135deg, #fbbf24 0%, #f472b6 100%);
+  --cosmic-accent: #fb7185;
+  --cosmic-accent2: #f59e42;
+}
+.theme-galaxy {
+  --cosmic-bg: linear-gradient(135deg, #0f172a 0%, #312e81 100%);
+  --cosmic-accent: #818cf8;
+  --cosmic-accent2: #06b6d4;
+}
+
+.bg-cosmic-black {
+  background: var(--cosmic-bg, #0a0a0a) !important;
+}
+
+.text-cosmic-accent {
+  color: var(--cosmic-accent, #f472b6);
+}
+
+.text-cosmic-accent2 {
+  color: var(--cosmic-accent2, #60a5fa);
+}
+
+.cosmiq-loading {
+  background: #0a0a0a !important;
 }
