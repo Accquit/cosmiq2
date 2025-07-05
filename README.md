@@ -61,7 +61,7 @@
    bun run dev
    ```
 4. **Open in your browser:**
-   - Visit [http://localhost:5173](http://localhost:5173)
+   - Visit [http://localhost:8080](http://localhost:8080)
 
 ---
 
@@ -85,21 +85,3 @@
 
 ---
 
-## 🏆 Hackathon Polish
-- **No authentication required** (fast, fun, and shareable)
-- **Creative local data** for mythology, affirmations, and playlists
-- **Easter eggs, daily facts, and achievements** (suggested for future)
-- **Live demo ready** (just deploy to Vercel/Netlify)
-
----
-
-## 🙏 Credits
-- **Aztro API** for horoscopes
-- **Spline** for 3D solar system
-- **Spotify** for music embeds
-- **All contributors and hackathon judges!**
-
----
-
-## 📄 License
-MIT 
