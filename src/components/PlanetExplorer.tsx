@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PlanetData, usePlanetData } from '../services/nasaApi';
 import PlanetInfoCard from './PlanetInfoCard';
@@ -7,6 +7,10 @@ import PlanetMusicEmbed from './PlanetMusicEmbed';
 import StoryMode from './StoryMode';
 import PlanetExplorerHeader from './PlanetExplorerHeader';
 import CosmicCard from './CosmicCard';
+import Loader from './Loader';
+import { speakText, speakPageSummary } from '../utils/speakText';
+import { mythologyData } from '../data/mythologyData';
+import { startVoiceNavigation, stopVoiceNavigation } from '../utils/voiceNavigation';
 
 // Responsive hook
 function useIsMobile() {
@@ -31,6 +35,25 @@ const PlanetExplorer: React.FC = () => {
   const handleCopyLink = () => {
     navigator.clipboard.writeText(shareUrl);
   };
+  const [showMatchModal, setShowMatchModal] = useState(false);
+  const [matchPlanetId, setMatchPlanetId] = useState('venus');
+  const [accessibilityMode, setAccessibilityMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('cosmiq_accessibility') === 'true';
+    }
+    return false;
+  });
+  const [listening, setListening] = useState(false);
+
+  useEffect(() => {
+    if (accessibilityMode) {
+      document.body.classList.add('cosmiq-accessibility');
+      localStorage.setItem('cosmiq_accessibility', 'true');
+    } else {
+      document.body.classList.remove('cosmiq-accessibility');
+      localStorage.setItem('cosmiq_accessibility', 'false');
+    }
+  }, [accessibilityMode]);
 
   const planets = [
     { id: 'mercury', name: 'Mercury', emoji: '☄️', color: 'from-orange-400 to-red-500' },
@@ -125,7 +148,7 @@ const PlanetExplorer: React.FC = () => {
                 </motion.button>
               ))}
             </AnimatePresence>
-          </div>
+      </div>
 
           {/* Footer */}
           <motion.div 
@@ -142,24 +165,12 @@ const PlanetExplorer: React.FC = () => {
 
         {/* Main Content + Sidebar as flex children */}
         <div className="flex-1 flex flex-row relative">
-          {/* Main Content Area */}
+      {/* Main Content Area */}
           <div className="flex-1 p-8 relative">
             <AnimatePresence mode="wait">
-              {loading ? (
-                <motion.div 
-                  key="loading"
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="flex items-center justify-center h-full"
-                >
-                  <div className="text-center">
-                    <div className="text-6xl mb-4 animate-spin">🌌</div>
-                    <div className="text-white text-xl font-medium">Loading cosmic data...</div>
-                    <div className="text-cosmic-blue-light text-sm mt-2">Connecting to the stars</div>
-                  </div>
-                </motion.div>
-              ) : error ? (
+        {loading ? (
+                <Loader message="Charting planetary orbits..." planetId={selectedPlanetId} />
+        ) : error ? (
                 <motion.div 
                   key="error"
                   initial={{ opacity: 0, y: 20 }}
@@ -173,7 +184,7 @@ const PlanetExplorer: React.FC = () => {
                     <div className="text-gray-400 text-sm mt-2">{error.message}</div>
                   </div>
                 </motion.div>
-              ) : planetData ? (
+        ) : planetData ? (
                 <motion.div 
                   key="content"
                   initial={{ opacity: 0, y: 20 }}
@@ -182,18 +193,77 @@ const PlanetExplorer: React.FC = () => {
                   className="space-y-8 max-w-4xl mx-auto"
                 >
                   {/* Welcome Header */}
-                  <motion.div 
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-8"
-                  >
-                    <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
-                      Welcome to {selectedPlanet?.name}
-                    </h2>
-                    <p className="text-cosmic-blue-light text-lg">
-                      Discover your cosmic identity and planetary vibes
-                    </p>
-                  </motion.div>
+                  <div className="flex flex-col items-center mb-4">
+                    <div className="glass-panel flex gap-2 p-2 rounded-2xl shadow-lg backdrop-blur bg-white/10 border border-white/20 mb-4">
+                      <button
+                        onClick={() => setAccessibilityMode(m => !m)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-blue-200 bg-cosmic-accent/20 hover:bg-cosmic-accent/40 focus:ring-2 focus:ring-blue-400 transition-all shadow ${accessibilityMode ? 'bg-blue-900 text-white' : ''}`}
+                        title="Toggle Accessibility Mode"
+                      >
+                        🦮 <span className="hidden sm:inline">Accessibility</span>
+                        <span className="sm:hidden">A11y</span>
+                        {accessibilityMode ? ' On' : ' Off'}
+                      </button>
+                      <button
+                        onClick={() => {
+                          startVoiceNavigation((cmd) => {
+                            const c = cmd.toLowerCase();
+                            if (c.includes('show')) {
+                              for (const planet of planets) {
+                                if (c.includes(planet.name.toLowerCase())) {
+                                  setSelectedPlanetId(planet.id);
+                                  break;
+                                }
+                              }
+                            }
+                            if (c.includes('horoscope')) {
+                              window.location.href = '/zodiac';
+                            }
+                            if (c.includes('affirmation')) {
+                              const aff = mythologyData[selectedPlanetId]?.affirmation;
+                              if (aff) speakText(aff);
+                            }
+                            if (c.includes('accessibility')) {
+                              setAccessibilityMode(m => !m);
+                            }
+                          }, setListening);
+                        }}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full font-semibold text-blue-200 bg-cosmic-accent/20 hover:bg-cosmic-accent/40 focus:ring-2 focus:ring-blue-400 transition-all shadow"
+                        title="Talk to COSMIQ"
+                      >
+                        🎙 <span className="hidden sm:inline">Talk to COSMIQ</span>
+                        <span className="sm:hidden">Voice</span>
+                      </button>
+                      {listening && <span className="ml-2 text-xs text-green-400 animate-pulse">Listening...</span>}
+                    </div>
+                    <motion.div 
+                      initial={{ opacity: 0, y: -20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="text-center mb-8"
+                    >
+                      <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+                        Welcome to {selectedPlanet?.name}
+                      </h2>
+                      <p className="text-cosmic-blue-light text-lg">
+                        Discover your cosmic identity and planetary vibes
+                      </p>
+                    </motion.div>
+                  </div>
+
+                  <div className="flex justify-center mb-4">
+                    <button
+                      onClick={() => speakPageSummary({
+                        page: 'Planet Explorer',
+                        planetName: selectedPlanet?.name,
+                        mood: mythologyData[selectedPlanetId]?.personality,
+                        affirmation: mythologyData[selectedPlanetId]?.affirmation
+                      })}
+                      className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+                      title="Narrate This Page"
+                    >
+                      🧑‍🚀 Narrate This Page
+                    </button>
+                  </div>
 
                   <div className="grid gap-8 md:grid-cols-1 lg:grid-cols-2">
                     <motion.div
@@ -201,16 +271,16 @@ const PlanetExplorer: React.FC = () => {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.2 }}
                     >
-                      <PlanetVibeCard planetId={selectedPlanetId} />
+            <PlanetVibeCard planetId={selectedPlanetId} />
                     </motion.div>
                     
-                    {selectedPlanet && (
+          {selectedPlanet && (
                       <motion.div
                         initial={{ opacity: 0, x: 50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: 0.4 }}
                       >
-                        <PlanetMusicEmbed planetId={selectedPlanetId} planetName={selectedPlanet.name} />
+            <PlanetMusicEmbed planetId={selectedPlanetId} planetName={selectedPlanet.name} />
                       </motion.div>
                     )}
                   </div>
@@ -232,12 +302,18 @@ const PlanetExplorer: React.FC = () => {
               )}
             </AnimatePresence>
             {/* Share Your Card Button */}
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center mt-8 gap-4">
               <button
                 onClick={() => setShowShareModal(true)}
                 className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white px-6 py-2 text-base font-medium shadow transition-all"
               >
                 🚀 Share Your Card
+              </button>
+              <button
+                onClick={() => setShowMatchModal(true)}
+                className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white px-6 py-2 text-base font-medium shadow transition-all"
+              >
+                💫 Compatibility Match
               </button>
             </div>
             {/* Share Modal */}
@@ -292,6 +368,57 @@ const PlanetExplorer: React.FC = () => {
                         🔗 Open Shareable Card
                       </a>
                     </div>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {/* Compatibility Match Modal */}
+            <AnimatePresence>
+              {showMatchModal && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
+                  onClick={() => setShowMatchModal(false)}
+                >
+                  <motion.div
+                    initial={{ scale: 0.9, y: 40 }}
+                    animate={{ scale: 1, y: 0 }}
+                    exit={{ scale: 0.9, y: 40 }}
+                    transition={{ type: 'spring', bounce: 0.3, duration: 0.4 }}
+                    className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 max-w-sm w-full shadow-2xl text-white flex flex-col items-center"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <button
+                      className="absolute top-4 right-4 text-white text-xl bg-white/10 rounded-full p-2 hover:bg-white/20 focus:outline-none"
+                      onClick={() => setShowMatchModal(false)}
+                      aria-label="Close"
+                      title="Close"
+                    >
+                      ✕
+                    </button>
+                    <h2 className="text-xl font-bold mb-2">Cosmic Compatibility Match</h2>
+                    <div className="w-full mb-4">
+                      <label className="block text-sm mb-2">Select another planet to compare:</label>
+                      <select
+                        value={matchPlanetId}
+                        onChange={e => setMatchPlanetId(e.target.value)}
+                        className="w-full rounded-lg px-3 py-2 bg-black/30 border border-white/20 text-white focus:outline-none focus:ring-2 focus:ring-cosmic-accent"
+                      >
+                        {planets.filter(p => p.id !== selectedPlanetId).map(planet => (
+                          <option key={planet.id} value={planet.id}>{planet.emoji} {planet.name}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <a
+                      href={`/match?user1=${selectedPlanetId}&user2=${matchPlanetId}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white px-4 py-2 text-sm font-medium shadow transition-all text-center mt-2"
+                    >
+                      🔗 View Compatibility
+                    </a>
                   </motion.div>
                 </motion.div>
               )}

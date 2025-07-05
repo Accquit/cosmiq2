@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { mythologyData, MythologyData } from '../data/mythologyData';
+import { speakText, stopSpeaking } from '../utils/speakText';
 
 interface PlanetVibeCardProps {
   planetId: string;
@@ -92,28 +93,32 @@ const PlanetVibeCard: React.FC<PlanetVibeCardProps> = ({ planetId }) => {
 
           {/* Affirmation Section */}
           <motion.div
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
+            initial={{ x: 50, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
             transition={{ delay: 0.7 }}
-            className="pt-6 border-t border-cosmic-blue-neon/30 text-center"
+            className="bg-white/5 backdrop-blur-sm p-6 rounded-xl border border-white/10"
           >
-            <h3 className="font-bold text-white mb-4 flex items-center justify-center text-lg">
+            <h3 className="font-bold text-white mb-3 flex items-center text-lg">
               <span className="mr-2">✨</span>
-              Your Cosmic Affirmation
+              Daily Affirmation
             </h3>
-            <motion.p 
-              className="text-cosmic-blue-neon text-xl font-medium leading-relaxed"
-              animate={{ 
-                textShadow: [
-                  "0 0 5px #3b82f6",
-                  "0 0 10px #3b82f6, 0 0 15px #3b82f6",
-                  "0 0 5px #3b82f6"
-                ]
-              }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              "{data.affirmation}"
-            </motion.p>
+            <p className="text-white italic mb-2">"{data.affirmation}"</p>
+            <div className="flex gap-2">
+              <button
+                onClick={() => speakText(data.affirmation)}
+                className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+                title="Hear affirmation"
+              >
+                🔊 Hear affirmation
+              </button>
+              <button
+                onClick={stopSpeaking}
+                className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+                title="Stop Speaking"
+              >
+                ✋ Stop Speaking
+              </button>
+            </div>
           </motion.div>
         </div>
       </div>

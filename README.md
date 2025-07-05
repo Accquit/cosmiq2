@@ -1,73 +1,98 @@
-# Welcome to your Lovable project
+# COSMIQ 🌌
 
-## Project info
+**COSMIQ** is a space-themed, interactive React + Tailwind web app where users explore planets, discover their cosmic identity, and get daily zodiac horoscopes. Designed for hackathons, it features a beautiful, glassmorphic UI, cosmic themes, and shareable experiences.
 
-**URL**: https://lovable.dev/projects/76cc26f1-f02c-4aba-a7b2-cf53d07ee5f0
+---
 
-## How can I edit this code?
+## 🚀 Features
 
-There are several ways of editing your application.
+- **3D Solar System Homepage:**
+  - Built with Spline, with floating cosmic navigation (🪐, 🔮, ❓, theme switcher).
+- **Planet Explorer:**
+  - Select planets, view mythological info, affirmations, and Spotify playlists.
+  - Responsive sidebar, sticky header, and cosmic theme switcher.
+- **Zodiac Horoscope:**
+  - Get your daily horoscope for any zodiac sign (via RapidAPI Aztro).
+  - See ruling planet, mood, lucky color/number/time, and share your cosmic message.
+- **Shareable Cosmic Identity Card:**
+  - Generate a beautiful card with your planet, myth, affirmation, playlist, and name.
+  - Download as PNG, copy, or share on Twitter.
+- **Cosmic Match:**
+  - Compare two planets' cosmic cards and see your compatibility.
+- **Story Mode:**
+  - Character-guided walkthrough for first-time visitors, with Framer Motion animations.
+- **Cosmic Theme Switcher:**
+  - Cycle through Nebula, Aurora, Supernova, and Galaxy themes (subpages only).
+- **Mobile Responsive & Accessible:**
+  - All features are mobile-friendly and keyboard accessible.
+- **Glassmorphic, glowing, cosmic design:**
+  - Consistent use of Tailwind, gradients, and Framer Motion.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/76cc26f1-f02c-4aba-a7b2-cf53d07ee5f0) and start prompting.
+## 🛠️ Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **React** (Vite)
+- **Tailwind CSS**
+- **Framer Motion** (animations)
+- **Spline** (3D solar system)
+- **RapidAPI Aztro** (zodiac horoscopes)
+- **Spotify Embed** (planetary playlists)
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## ⚡ Quick Start
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. **Clone the repo:**
+   ```bash
+   git clone https://github.com/Accquit/cosmiq2.git
+   cd cosmiq2
+   ```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   # or
+   bun install
+   ```
+3. **Start the dev server:**
+   ```bash
+   npm run dev
+   # or
+   bun run dev
+   ```
+4. **Open in your browser:**
+   - Visit [http://localhost:5173](http://localhost:5173)
 
-Follow these steps:
+---
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+## 🔮 Zodiac Horoscope API
+- Uses [Aztro API via RapidAPI](https://rapidapi.com/sameer.kumar/api/aztro)
+- You can set your RapidAPI key in the code (see `ZodiacHoroscopeCard.tsx`)
+- No authentication or headers needed for other features
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+---
 
-# Step 3: Install the necessary dependencies.
-npm i
+## ✨ Screenshots
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+> _Add screenshots or a demo GIF here for hackathon judging!_
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🏆 Hackathon Polish
+- **No authentication required** (fast, fun, and shareable)
+- **Creative local data** for mythology, affirmations, and playlists
+- **Easter eggs, daily facts, and achievements** (suggested for future)
+- **Live demo ready** (just deploy to Vercel/Netlify)
 
-**Use GitHub Codespaces**
+---
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🙏 Credits
+- **Aztro API** for horoscopes
+- **Spline** for 3D solar system
+- **Spotify** for music embeds
+- **All contributors and hackathon judges!**
 
-## What technologies are used for this project?
+---
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/76cc26f1-f02c-4aba-a7b2-cf53d07ee5f0) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 📄 License
+MIT 

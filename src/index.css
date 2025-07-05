@@ -184,3 +184,22 @@ All colors MUST be HSL.
 .cosmiq-loading {
   background: #0a0a0a !important;
 }
+
+.cosmiq-accessibility {
+  background: #000 !important;
+  color: #fff !important;
+  font-size: 1.15rem !important;
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New', monospace !important;
+}
+.cosmiq-accessibility button, .cosmiq-accessibility a, .cosmiq-accessibility input, .cosmiq-accessibility select {
+  font-size: 1.1em !important;
+  outline: 2px solid #38bdf8 !important;
+  outline-offset: 2px !important;
+  border-radius: 0.375rem !important;
+  background: #111 !important;
+  color: #fff !important;
+}
+.cosmiq-accessibility .text-xs { font-size: 1rem !important; }
+.cosmiq-accessibility .text-sm { font-size: 1.1rem !important; }
+.cosmiq-accessibility .text-base { font-size: 1.2rem !important; }
+.cosmiq-accessibility .text-lg, .cosmiq-accessibility .lg\:text-xl { font-size: 1.4rem !important; }

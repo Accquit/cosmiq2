@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import CosmicCard from '../components/CosmicCard';
+import { speakText, stopSpeaking } from '../utils/speakText';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -46,6 +47,22 @@ const MatchPage: React.FC = () => {
         <CosmicCard planetId={user2} readOnly />
       </div>
       <div className="mt-8 text-lg md:text-xl text-cosmic-accent text-center font-medium max-w-xl">{compatibility}</div>
+      <div className="flex gap-2 justify-center mt-2">
+        <button
+          onClick={() => speakText(compatibility)}
+          className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+          title="Hear compatibility"
+        >
+          🔊 Hear compatibility
+        </button>
+        <button
+          onClick={stopSpeaking}
+          className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+          title="Stop Speaking"
+        >
+          ✋ Stop Speaking
+        </button>
+      </div>
       <button
         onClick={() => navigate('/')}
         className="mt-8 rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white px-6 py-2 text-base font-medium shadow transition-all"

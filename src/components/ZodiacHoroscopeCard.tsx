@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { zodiacPlanetMap } from '../data/zodiacPlanetMap';
+import Loader from './Loader';
+import { speakText, stopSpeaking, speakPageSummary } from '../utils/speakText';
 
 interface ZodiacHoroscopeCardProps {
   sign: string;
@@ -30,6 +32,21 @@ const PLANET_EMOJIS: Record<string, string> = {
 };
 
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+
+const localHoroscopes: Record<string, string> = {
+  aries: "Today, your cosmic fire blazes a new trail. Embrace boldness and let your energy inspire others!",
+  taurus: "Ground yourself in beauty and comfort. The universe rewards your patience and steady heart.",
+  gemini: "Curiosity leads you to new connections. Share your ideas and let your mind wander the stars.",
+  cancer: "Nurture your dreams and those you love. The moon brings gentle waves of inspiration.",
+  leo: "Shine bright and lead with courage. Your cosmic roar is heard across the galaxy!",
+  virgo: "Details matter—your cosmic clarity brings order to the universe. Trust your intuition.",
+  libra: "Balance brings harmony. Seek beauty in every moment and share your cosmic peace.",
+  scorpio: "Transformation is your power. Dive deep and let your passion guide you to new realms.",
+  sagittarius: "Adventure calls! Explore new horizons and let your cosmic optimism soar.",
+  capricorn: "Build your dreams with patience. The stars reward your ambition and discipline.",
+  aquarius: "Innovation flows through you. Share your vision and spark cosmic change.",
+  pisces: "Let your imagination drift. The universe whispers creative secrets to your soul.",
+};
 
 const ZodiacHoroscopeCard: React.FC<ZodiacHoroscopeCardProps> = ({ sign }) => {
   const [horoscope, setHoroscope] = useState<HoroscopeData | null>(null);
@@ -66,7 +83,7 @@ const ZodiacHoroscopeCard: React.FC<ZodiacHoroscopeCardProps> = ({ sign }) => {
         current_date: data.current_date,
       });
     } catch (err) {
-      setError('Could not fetch horoscope. Try again later.');
+      setError('Could not fetch horoscope. Showing a cosmic fallback:');
     } finally {
       setLoading(false);
     }
@@ -113,11 +130,32 @@ const ZodiacHoroscopeCard: React.FC<ZodiacHoroscopeCardProps> = ({ sign }) => {
           disabled
         >Today</button>
       </div>
-      {loading && <div className="text-white/80 py-8">Loading your cosmic message...</div>}
-      {error && <div className="text-red-400 py-8">{error}</div>}
+      {loading && <Loader message="Reading the stars..." planetId={sign} />}
+      {error && (
+        <div className="text-red-400 py-8 text-center">
+          Could not fetch horoscope. Showing a cosmic fallback:<br />
+          <span className="block text-white mt-4">{localHoroscopes[sign.toLowerCase()]}</span>
+        </div>
+      )}
       {horoscope && !loading && !error && (
         <>
           <div className="text-white text-lg text-center mb-4">{horoscope.description}</div>
+          <div className="flex gap-2 justify-center mb-2">
+            <button
+              onClick={() => speakText(horoscope.description)}
+              className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+              title="Hear your stars"
+            >
+              🔊 Hear your stars
+            </button>
+            <button
+              onClick={stopSpeaking}
+              className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors"
+              title="Stop Speaking"
+            >
+              ✋ Stop Speaking
+            </button>
+          </div>
           <div className="flex flex-wrap gap-4 justify-center mb-4">
             <div className="bg-white/10 rounded-xl px-4 py-2 text-sm text-white flex flex-col items-center">
               <span className="font-semibold">Mood</span>
@@ -135,6 +173,19 @@ const ZodiacHoroscopeCard: React.FC<ZodiacHoroscopeCardProps> = ({ sign }) => {
               <span className="font-semibold">Lucky Time</span>
               <span>{horoscope.lucky_time}</span>
             </div>
+          </div>
+          <div className="flex justify-center mb-2">
+            <button
+              onClick={() => speakPageSummary({
+                page: 'Zodiac Horoscope',
+                planetName: capitalize(sign),
+                affirmation: horoscope?.description
+              })}
+              className="text-xs text-blue-300 underline hover:text-blue-400 transition-colors mr-2"
+              title="Narrate This Page"
+            >
+              🧑‍🚀 Narrate This Page
+            </button>
           </div>
           <div className="flex gap-2 mt-2">
             <button

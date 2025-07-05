@@ -77,6 +77,28 @@ const PlanetExplorerHeader: React.FC<PlanetExplorerHeaderProps> = ({ planetName,
 
       {/* Right: Actions */}
       <div className="flex-1 min-w-0 flex justify-end items-center gap-2">
+        {/* Home Button */}
+        <motion.button
+          whileHover={{ scale: 1.12 }}
+          whileTap={{ scale: 0.96 }}
+          onClick={() => navigate('/')}
+          className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white p-2 transition-all focus:outline-none focus:ring-2 focus:ring-blue-400 shadow"
+          aria-label="Home"
+          title="Home"
+        >
+          <span className="text-xl">🏠</span>
+        </motion.button>
+        {/* Horoscope Button */}
+        <motion.button
+          whileHover={{ scale: 1.12 }}
+          whileTap={{ scale: 0.96 }}
+          onClick={() => navigate('/zodiac')}
+          className="rounded-full bg-white/10 hover:bg-white/20 backdrop-blur text-white p-2 transition-all focus:outline-none focus:ring-2 focus:ring-pink-400 shadow"
+          aria-label="Horoscope"
+          title="Zodiac Horoscope"
+        >
+          <span className="text-xl">🔮</span>
+        </motion.button>
         {/* Cosmic Theme Switcher */}
         <motion.button
           whileHover={{ scale: 1.12 }}
